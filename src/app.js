@@ -4,6 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require ('cors');
 const helmet = require('helmet');
+const articlesRouter = require('./article-router/articleRouter');
 
 const app = express();
 const morganOptions = NODE_ENV === 'production' 
@@ -15,6 +16,8 @@ app.use(cors());
 
 app.get(`/`, (_,res)=>{
     res.send(`Hello World`);
-})
+});
+
+app.use(`/articles`, articlesRouter);
 
 module.exports = app;
