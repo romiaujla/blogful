@@ -1,4 +1,5 @@
-const {expect} = require('chai');
+require('dotenv').config();
+const { expect } = require('chai');
 const request = require('supertest');
 
 global.expect = expect;

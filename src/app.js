@@ -4,7 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require ('cors');
 const helmet = require('helmet');
-const articlesRouter = require('./article-router/articleRouter');
+const articlesRouter = require('./articles/article-router');
 
 const app = express();
 const morganOptions = NODE_ENV === 'production' 

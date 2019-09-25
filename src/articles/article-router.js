@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const articleRouter = express.Router();
 const bodyParser = express.json();
-const ArticlesService = require('../articles-service');
+const ArticlesService = require('./articles-service');
 
 // Creating database connection
 const knex = require('knex');
