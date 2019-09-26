@@ -24,7 +24,16 @@ articleRouter
         const { article_id } = req.params;
         ArticlesService.getById(db, article_id)
             .then((article) => {
-                req.json(article);
+                if(!article){
+                    return res
+                        .status(404)
+                        .json({
+                            error: {
+                                message: `Article doesn't exist`
+                            }
+                        });
+                }
+                res.json(article);
             })
             .catch(next);
     })
