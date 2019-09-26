@@ -11,34 +11,44 @@ describe(`Article Services object: `, ()=>{
             id: 1,
             date_published: new Date('2029-01-22T16:28:32.615Z'),
             title: 'First test post!',
+            style: 'How-to',
             content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
         },
         {
             id: 2,
             date_published: new Date('2029-01-22T16:28:32.615Z'),
             title: 'Second test post!',
+            style: 'News',
             content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
         },
         {
             id: 3,
             date_published: new Date('2029-01-22T16:28:32.615Z'),
             title: 'Third test post!',
+            style: 'Listicle',
             content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
         },
+        {
+            id: 4,
+            date_published: new Date('2029-01-22T16:28:32.615Z'),
+            title: 'Fourth Test post',
+            style: 'Story',
+            content: 'Lorem ipsum',
+        }
     ]
 
-    before(()=>{
+    before(`Make knex instance`, ()=>{
         db = knex({
             client: 'pg',
             connection: process.env.TEST_DB_URL,
         });
     });
 
-    after(()=>{
+    after(`Disconnect from db`, ()=>{
         return db.destroy();
     });
 
-    before(()=>{
+    before(`Clean the table`, ()=>{
         return db(ARTICLESTABLE).truncate();
     });
 
@@ -47,7 +57,7 @@ describe(`Article Services object: `, ()=>{
     })
 
     context(`Given '${ARTICLESTABLE}' has data`, ()=>{
-        beforeEach(()=>{
+        beforeEach(`Insert test data into '${ARTICLESTABLE}' table`, ()=>{
             return db
                 .into(ARTICLESTABLE)
                 .insert(testArticles);
@@ -70,6 +80,7 @@ describe(`Article Services object: `, ()=>{
                     expect(actual).to.eql({
                         id: searchId,
                         title: testArticle.title,
+                        style: testArticle.style,
                         content: testArticle.content,
                         date_published: new Date(testArticle.date_published)
                     });
@@ -90,6 +101,7 @@ describe(`Article Services object: `, ()=>{
             const idOfArticleToUpdate = 3;
             const newArticle = {
                 title: 'updated title',
+                style: 'How-to',
                 content: 'updated content',
                 date_published: new Date()
             }
@@ -115,6 +127,7 @@ describe(`Article Services object: `, ()=>{
         it(`insertArticle() inserts a new article and resolves the new article with an 'id'`, ()=>{
             const newArticle = {
                 title: 'Test new title',
+                style: 'News',
                 content: 'Test new content',
                 date_published: new Date('2020-01-01T00:00:00.000Z'),
             }
@@ -123,6 +136,7 @@ describe(`Article Services object: `, ()=>{
                     expect(actual).to.eql({
                         id: 1,
                         title: newArticle.title,
+                        style: newArticle.style,
                         content: newArticle.content,
                         date_published: new Date(newArticle.date_published)
                     });
